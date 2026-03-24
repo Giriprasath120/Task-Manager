@@ -2,113 +2,33 @@
 <html>
 <head>
     <title>Task Manager</title>
-    <style>
-        body {
-            font-family: Arial;
-            text-align: center;
-        }
-        input, button {
-            margin: 5px;
-            padding: 8px;
-        }
-        .task {
-            border: 1px solid #ccc;
-            margin: 10px;
-            padding: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Task Manager</h1>
-<input type="hidden" id="taskId">
-<input id="title" placeholder="Task Title">
-<input id="deadline" placeholder="Deadline">
-<input id="priority" placeholder="Priority">
+<div class="container">
 
-<button onclick="addTask()">Add Task</button>
+    <h1 class="title">TASK MANAGER</h1>
 
-<h2>Tasks</h2>
-<div id="taskList"></div>
+    <div class="form">
+        <input id="title" placeholder="Type the title">
+        <input id="deadline" type="date">
+        <select id="priority">
+            <option>High</option>
+            <option>Medium</option>
+            <option>Low</option>
+        </select>
+    </div>
 
-<script src="script.js">
+    <button onclick="addTask()" class="add-btn">ADD TASK</button>
 
-function loadTasks() {
-    fetch("http://localhost:8080/tasks")
-    .then(res => res.json())
-    .then(data => {
-        let output = "";
-        data.forEach(task => {
-            output += `
-                <div class="task">
-                    <p><b>${task.title}</b></p>
-                    <p>${task.deadline} | ${task.priority}</p>
+    <h2>Your Tasks</h2>
 
-                    <button onclick="editTask(${task.id})">Edit</button>
-                    <button onclick="deleteTask(${task.id})">Delete</button>
-                </div>
-            `;
-        });
-        document.getElementById("taskList").innerHTML = output;
-    });
-    
-}
+    <div id="taskList"></div>
 
-function addTask() {
-    const task = {
-        title: document.getElementById("title").value,
-        deadline: document.getElementById("deadline").value,
-        priority: document.getElementById("priority").value,
-        completed: false
-    };
+</div>
 
-    fetch("http://localhost:8080/tasks", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(task)
-    })
-    .then(() => loadTasks());
-}
-
-function deleteTask(id) {
-    fetch(`http://localhost:8080/tasks/${id}`, {
-        method: "DELETE"
-    })
-    .then(() => {
-        alert("Task deleted");
-        loadTasks();
-    });
-}
-
-function editTask(id) {
-    const newTitle = prompt("Enter new title:");
-    const newDeadline = prompt("Enter new deadline (YYYY-MM-DD):");
-    const newPriority = prompt("Enter priority (Low/Medium/High):");
-
-    const updatedTask = {
-        title: newTitle,
-        deadline: newDeadline,
-        priority: newPriority,
-        completed: false
-    };
-
-    fetch(`http://localhost:8080/tasks/${id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(updatedTask)
-    })
-    .then(res => res.json())
-    .then(() => {
-        alert("Task updated");
-        loadTasks();
-    });
-}
-
-loadTasks();
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>

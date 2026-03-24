@@ -1,50 +1,65 @@
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    text-align: center;
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(to bottom, #5f2c82, #c6bcd8);
 }
 
-h1 {
-    margin-top: 20px;
+.container {
+    text-align: center;
+    padding: 40px;
+}
+
+.title {
+    background: #c9b36d;
+    padding: 10px;
+    border-radius: 10px;
+    display: inline-block;
 }
 
 .form {
-    margin: 20px;
+    margin: 30px;
 }
 
-input {
+input, select {
     padding: 10px;
-    margin: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-button {
-    padding: 10px 15px;
+    margin: 10px;
+    border-radius: 10px;
     border: none;
-    background: #007bff;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
+    width: 200px;
 }
 
-button:hover {
-    background: #0056b3;
+.add-btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    background: white;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .task {
     background: white;
+    margin: 20px auto;
+    padding: 20px;
+    width: 400px;
     border-radius: 10px;
-    margin: 15px auto;
-    padding: 15px;
-    width: 300px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.task p {
-    margin: 5px 0;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 }
 
 .task button {
+    margin: 5px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background: blue;
+    color: white;
+}
+
+.delete-btn {
     background: red;
+    color: white;
 }

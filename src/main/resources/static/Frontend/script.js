@@ -8,13 +8,31 @@ function loadTasks() {
         let output = "";
 
         data.forEach(task => {
+
+            // 🎨 Priority color (UI upgrade)
+            let priorityColor = "black";
+            if (task.priority === "High") priorityColor = "red";
+            else if (task.priority === "Medium") priorityColor = "orange";
+            else if (task.priority === "Low") priorityColor = "green";
+
             output += `
                 <div class="task">
-                    <p><b>${task.title}</b></p>
-                    <p>${task.deadline} | ${task.priority}</p>
+                    <h3>${task.title}</h3>
+                    <p>${task.deadline} | 
+                        <span style="color:${priorityColor}; font-weight:bold;">
+                            ${task.priority}
+                        </span>
+                    </p>
 
-                    <button onclick="editTask(${task.id}, '${task.title}', '${task.deadline}', '${task.priority}')">Edit</button>
-                    <button onclick="deleteTask(${task.id})">Delete</button>
+                    <button class="edit-btn"
+                        onclick="editTask(${task.id}, '${task.title}', '${task.deadline}', '${task.priority}')">
+                        Edit
+                    </button>
+
+                    <button class="delete-btn"
+                        onclick="deleteTask(${task.id})">
+                        Delete
+                    </button>
                 </div>
             `;
         });
@@ -28,8 +46,8 @@ function loadTasks() {
 // 🔹 Add new task
 function addTask() {
     const title = document.getElementById("title").value.trim();
-    const deadline = document.getElementById("deadline").value.trim();
-    const priority = document.getElementById("priority").value.trim();
+    const deadline = document.getElementById("deadline").value;
+    const priority = document.getElementById("priority").value;
 
     if (!title || !deadline || !priority) {
         alert("Please fill all fields");
@@ -64,13 +82,14 @@ function deleteTask(id) {
         method: "DELETE"
     })
     .then(() => {
+        alert("Task deleted!");
         loadTasks();
     })
     .catch(err => console.error("Error deleting task:", err));
 }
 
 
-// 🔹 Edit task (with prompt)
+// 🔹 Edit task (prompt version - simple UX)
 function editTask(id, oldTitle, oldDeadline, oldPriority) {
     const newTitle = prompt("Enter new title:", oldTitle);
     const newDeadline = prompt("Enter new deadline (YYYY-MM-DD):", oldDeadline);
@@ -94,6 +113,7 @@ function editTask(id, oldTitle, oldDeadline, oldPriority) {
         body: JSON.stringify(updatedTask)
     })
     .then(() => {
+        alert("Task updated!");
         loadTasks();
     })
     .catch(err => console.error("Error updating task:", err));
